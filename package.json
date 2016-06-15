@@ -1,0 +1,16 @@
+{
+  "name": "thunks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "tomkp <tom@tomkp.com> (http://tomkp.com)",
+  "license": "MIT",
+  "dependencies": {
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0"
+  }
+}
