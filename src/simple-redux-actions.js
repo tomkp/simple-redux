@@ -1,6 +1,11 @@
 const {createStore} = require('redux');
+const {createAction} = require('redux-actions');
+
+const increment = createAction('INCREMENT');
+const decrement = createAction('DECREMENT');
 
 const reducer = (state, action) => {
+    console.log(`reducer ${JSON.stringify(action)}`);
     switch (action.type) {
         case 'INCREMENT':
             return state + 1;
@@ -11,7 +16,7 @@ const reducer = (state, action) => {
     }
 };
 
-const initialState = 13;
+const initialState = 7;
 
 const store = createStore(reducer, initialState);
 
@@ -22,11 +27,10 @@ const render = () => {
 render();
 store.subscribe(render);
 
-store.dispatch({type: 'INCREMENT'});
-store.dispatch({type: 'INCREMENT'});
-store.dispatch({type: 'DECREMENT'});
-store.dispatch({type: 'INCREMENT'});
+store.dispatch(increment());
+store.dispatch(increment());
+store.dispatch(decrement());
 setTimeout(() => {
-    store.dispatch({type: 'DECREMENT'});
+    store.dispatch(decrement());
 }, 2000);
 
