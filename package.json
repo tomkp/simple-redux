@@ -10,8 +10,13 @@
   "author": "tomkp <tom@tomkp.com> (http://tomkp.com)",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.9.1",
+    "isomorphic-fetch": "^2.2.1",
     "redux": "^3.5.2",
     "redux-actions": "^0.10.0",
+    "redux-effects": "^0.4.3",
+    "redux-effects-fetch": "^0.5.5",
+    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0"
   }
 }
