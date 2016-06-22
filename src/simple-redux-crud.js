@@ -1,6 +1,7 @@
 const {createStore} = require('redux');
 
 const add = (data) => {return {type: 'ADD', payload: { data: data}}};
+const edit = (index, data) => {return {type: 'EDIT', payload: { data: data, index: index}}};
 const remove = (index) => {return {type: 'REMOVE', payload: { index: index}}};
 
 const reducer = (state, action) => {
@@ -9,6 +10,12 @@ const reducer = (state, action) => {
             return [
                 ...state,
                 action.payload.data
+            ];
+        case 'EDIT':
+            return [
+                ...state.slice(0, action.payload.index),
+                action.payload.data,
+                ...state.slice(action.payload.index + 1)
             ];
         case 'REMOVE':
             return [
@@ -31,9 +38,11 @@ const render = () => {
 render();
 store.subscribe(render);
 
-store.dispatch(add(3));
-store.dispatch(add(5));
-store.dispatch(add(7));
+store.dispatch(add('A'));
+store.dispatch(add('B'));
+store.dispatch(add('C'));
+store.dispatch(edit(1, 'BB'));
 store.dispatch(remove(2));
 store.dispatch(remove(0));
+
 
