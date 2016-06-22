@@ -15,9 +15,9 @@ const reducer = (state, action) => {
 
 const logger = ({getState}) => {
     return (next) => (action) => {
-        console.log(`logger - pre dispatch action: ${JSON.stringify(action)}, state: ${JSON.stringify(getState())}`);
+        console.log(`logger - dispatching: ${JSON.stringify(action)}`);
         let returnValue = next(action);
-        console.log(`logger - post dispatch action: ${JSON.stringify(action)}, state: ${JSON.stringify(getState())}`);
+        console.log(`logger - new state: ${JSON.stringify(getState())}`);
         return returnValue;
     };
 };
