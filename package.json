@@ -17,6 +17,7 @@
     "redux-effects": "^0.4.3",
     "redux-effects-fetch": "^0.5.5",
     "redux-logger": "^2.6.1",
+    "redux-multi": "^0.1.12",
     "redux-thunk": "^2.1.0"
   }
 }
