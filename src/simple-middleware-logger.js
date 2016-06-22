@@ -13,7 +13,7 @@ const reducer = (state, action) => {
     }
 };
 
-const logger = ({getState}) => {
+const loggerMiddleware = ({getState}) => {
     return (next) => (action) => {
         console.log(`logger - dispatching: ${JSON.stringify(action)}`);
         let returnValue = next(action);
@@ -25,7 +25,7 @@ const logger = ({getState}) => {
 const store = createStore(
     reducer,
     initialState,
-    applyMiddleware(logger)
+    applyMiddleware(loggerMiddleware)
 );
 
 const render = () => {
