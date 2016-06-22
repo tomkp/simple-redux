@@ -38,10 +38,10 @@ const render = () => {
 render();
 store.subscribe(render);
 
-store.dispatch(add('A'));
-store.dispatch(add('B'));
-store.dispatch(add('C'));
-store.dispatch(edit(1, 'BB'));
+store.dispatch(add('TOM'));
+store.dispatch(add('DICK'));
+store.dispatch(add('HARRY'));
+store.dispatch(edit(1, 'RICHARD'));
 store.dispatch(remove(2));
 store.dispatch(remove(0));
 
