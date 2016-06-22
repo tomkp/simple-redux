@@ -7,7 +7,6 @@ const fetch = require('isomorphic-fetch');
 require ('babel-polyfill');
 
 
-
 // actions
 const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT';
 const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
@@ -70,13 +69,10 @@ const shouldFetchPosts = (state, subreddit) => {
 };
 
 const fetchPostsIfNeeded = (subreddit) => {
-
     // Note that the function also receives getState()
     // which lets you choose what to dispatch next.
-
     // This is useful for avoiding a network request if
     // a cached value is already available.
-
     return (dispatch, getState) => {
         if (shouldFetchPosts(getState(), subreddit)) {
             // Dispatch a thunk from thunk!
