@@ -1,11 +1,11 @@
-const {createStore} = require('redux');
+const {createStore, combineReducers} = require('redux');
 
 const add = (data) => {return {type: 'ADD', payload: { data: data}}};
 const edit = (index, data) => {return {type: 'EDIT', payload: { data: data, index: index}}};
 const remove = (index) => {return {type: 'REMOVE', payload: { index: index}}};
 
 
-const itemsReducer = (state, action) => {
+const items = (state = [], action) => {
     switch (action.type) {
         case 'ADD':
             return [
@@ -28,11 +28,11 @@ const itemsReducer = (state, action) => {
     }
 };
 
-const reducer = (state = {}, action) => {
-    return {
-        items: itemsReducer(state.items, action)
-    }
-}
+
+const reducer = combineReducers({
+    items
+});
+
 
 const initialState = {items:[]};
 
