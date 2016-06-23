@@ -1,11 +1,11 @@
-const {createStore} = require('redux');
+const {createStore, combineReducers} = require('redux');
 const {createAction} = require('redux-actions');
 
 const add = createAction('ADD');
 const edit = createAction('EDIT');
 const remove = createAction('REMOVE');
 
-const reducer = (state, action) => {
+const items = (state = [], action) => {
     switch (action.type) {
         case 'ADD':
             return [
@@ -28,9 +28,11 @@ const reducer = (state, action) => {
     }
 };
 
-const initialState = [];
+const reducer = combineReducers({
+    items
+});
 
-const store = createStore(reducer, initialState);
+const store = createStore(reducer);
 
 const render = () => {
     console.log(`render state: ${JSON.stringify(store.getState())}`)
