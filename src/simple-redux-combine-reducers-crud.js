@@ -4,7 +4,6 @@ const add = (data) => {return {type: 'ADD', payload: { data: data}}};
 const edit = (index, data) => {return {type: 'EDIT', payload: { data: data, index: index}}};
 const remove = (index) => {return {type: 'REMOVE', payload: { index: index}}};
 
-
 const items = (state = [], action) => {
     switch (action.type) {
         case 'ADD':
@@ -28,15 +27,11 @@ const items = (state = [], action) => {
     }
 };
 
-
 const reducer = combineReducers({
     items
 });
 
-
-const initialState = {items:[]};
-
-const store = createStore(reducer, initialState);
+const store = createStore(reducer);
 
 const render = () => {
     console.log(`render state: ${JSON.stringify(store.getState())}`)
@@ -51,5 +46,4 @@ store.dispatch(add('HARRY'));
 store.dispatch(edit(1, 'RICHARD'));
 store.dispatch(remove(2));
 store.dispatch(remove(0));
-
 
