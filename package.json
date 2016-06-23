@@ -19,6 +19,7 @@
     "redux-effects-fetch": "^0.5.5",
     "redux-logger": "^2.6.1",
     "redux-multi": "^0.1.12",
+    "redux-saga": "^0.10.5",
     "redux-thunk": "^2.1.0"
   }
 }
