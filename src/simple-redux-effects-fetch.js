@@ -1,21 +1,16 @@
 const {createStore, applyMiddleware} = require('redux');
-
 const thunkMiddleware = require('redux-thunk').default;
 const multiMiddleware = require('redux-multi').default;
 const effectsMiddleware = require('redux-effects').default;
 const fetchMiddleware = require('redux-effects-fetch').default;
-
 const {bind} = require('redux-effects');
 const {fetch} = require('redux-effects-fetch');
-
 const chalk = require('chalk');
-
 const {createAction} = require('redux-actions');
 
 const started = createAction('STARTED');
 const succeeded = createAction('SUCCEEDED');
 const failed = createAction('FAILED');
-
 const fetchStockQuote = ({symbol}) => [
     started(),
     bind(fetch(`http://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.quotes+where+symbol+in+("${symbol}")&format=json&env=store:%2F%2Fdatatables.org%2Falltableswithkeys`),
@@ -26,18 +21,15 @@ const fetchStockQuote = ({symbol}) => [
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-
         case 'STARTED':
             return Object.assign({}, state, {
                 status: action.type
             });
-        
         case 'SUCCEEDED':
             return Object.assign({}, state, {
                 status: action.type,
                 results: action.payload.value.query.results
             });
-
         case 'FAILED':
             return Object.assign({}, state, {
                 status: action.type,
@@ -47,7 +39,6 @@ const reducer = (state = {}, action) => {
             return state;
     }
 };
-
 
 const loggerMiddleware = ({getState}) => {
     return (next) => (action) => {
@@ -59,7 +50,6 @@ const loggerMiddleware = ({getState}) => {
     };
 };
 
-
 const store = createStore(reducer,
     applyMiddleware(
         loggerMiddleware,
@@ -67,15 +57,8 @@ const store = createStore(reducer,
     )
 );
 
-const render = () => {
-    console.log(`\t\t${chalk.inverse('render state')} ${JSON.stringify(store.getState())}`);
-};
+const render = () => console.log(`\t\t${chalk.inverse('render state')} ${JSON.stringify(store.getState())}`);
 
 store.subscribe(render);
-
-
 store.dispatch(fetchStockQuote({symbol: 'TSCO.L'}));
-
-
-setTimeout(() => {}, 5000);
 
