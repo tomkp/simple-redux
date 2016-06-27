@@ -1,8 +1,8 @@
 const {createStore, applyMiddleware} = require('redux');
 
 const thunkMiddleware = require('redux-thunk').default;
-const effectsMiddleware = require('redux-effects').default;
 const multiMiddleware = require('redux-multi').default;
+const effectsMiddleware = require('redux-effects').default;
 const fetchMiddleware = require('redux-effects-fetch').default;
 
 const {bind} = require('redux-effects');
@@ -16,16 +16,15 @@ const started = createAction('STARTED');
 const succeeded = createAction('SUCCEEDED');
 const failed = createAction('FAILED');
 
-const search = ({query}) => [
+const fetchStockQuote = ({symbol}) => [
     started(),
-    bind(fetch(`https://www.google.co.uk/?q=${query}`),
-        ({statusCode}) => succeeded(value),
+    bind(fetch(`http://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.quotes+where+symbol+in+("${symbol}")&format=json&env=store:%2F%2Fdatatables.org%2Falltableswithkeys`),
+        (x) => succeeded(x),
         (value) => failed(value)
     )
 ];
 
 const reducer = (state = {}, action) => {
-    //console.log(`reduce ${JSON.stringify(action)}`)
     switch (action.type) {
 
         case 'STARTED':
@@ -35,12 +34,14 @@ const reducer = (state = {}, action) => {
         
         case 'SUCCEEDED':
             return Object.assign({}, state, {
-                status: action.type
+                status: action.type,
+                results: action.payload.value.query.results
             });
 
         case 'FAILED':
             return Object.assign({}, state, {
-                status: action.type
+                status: action.type,
+                message: action.payload.message
             });
         default:
             return state;
@@ -70,12 +71,11 @@ const render = () => {
     console.log(`\t\t${chalk.inverse('render state')} ${JSON.stringify(store.getState())}`);
 };
 
-render();
 store.subscribe(render);
 
 
-store.dispatch(search({query: 'humans'}));
+store.dispatch(fetchStockQuote({symbol: 'TSCO.L'}));
 
 
-setTimeout(() => {}, 10000);
+setTimeout(() => {}, 5000);
 
