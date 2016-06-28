@@ -34,9 +34,7 @@ const reducer = combineReducers({
 
 const store = createStore(reducer);
 
-const render = () => {
-    console.log(`render state: ${JSON.stringify(store.getState())}`)
-};
+const render = () => console.log(`render state: ${JSON.stringify(store.getState())}`);
 
 render();
 store.subscribe(render);

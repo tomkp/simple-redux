@@ -58,13 +58,10 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, applyMiddleware(effects, thunk, multi));
 
-const render = () => {
-    console.log(`render state: ${JSON.stringify(store.getState())}`)
-};
+const render = () => console.log(`render state: ${JSON.stringify(store.getState())}`);
 
 render();
 store.subscribe(render);
-
 
 store.dispatch(add({data: 'TOM'}));
 store.dispatch(add({data: 'DICK'}));

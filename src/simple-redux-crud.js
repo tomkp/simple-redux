@@ -27,13 +27,9 @@ const reducer = (state, action) => {
     }
 };
 
-const initialState = [];
+const store = createStore(reducer, []);
 
-const store = createStore(reducer, initialState);
-
-const render = () => {
-    console.log(`render state: ${JSON.stringify(store.getState())}`)
-};
+const render = () => console.log(`render state: ${JSON.stringify(store.getState())}`);
 
 render();
 store.subscribe(render);
