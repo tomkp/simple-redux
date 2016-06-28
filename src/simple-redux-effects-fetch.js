@@ -5,8 +5,8 @@ const effectsMiddleware = require('redux-effects').default;
 const fetchMiddleware = require('redux-effects-fetch').default;
 const {bind} = require('redux-effects');
 const {fetch} = require('redux-effects-fetch');
-const chalk = require('chalk');
 const {createAction} = require('redux-actions');
+const loggerMiddleware = require('./logger-middleware');
 
 const started = createAction('STARTED');
 const succeeded = createAction('SUCCEEDED');
@@ -28,7 +28,7 @@ const reducer = (state = {}, action) => {
         case 'SUCCEEDED':
             return Object.assign({}, state, {
                 status: action.type,
-                results: action.payload.value.query.results
+                askPrice: action.payload.value.query.results.quote.Ask
             });
         case 'FAILED':
             return Object.assign({}, state, {
@@ -40,24 +40,9 @@ const reducer = (state = {}, action) => {
     }
 };
 
-const loggerMiddleware = ({getState}) => {
-    return (next) => (action) => {
-        console.log(`${chalk.red.bold('dispatching')} ${JSON.stringify(action)}`);
-        console.log(`\t${chalk.blue.bold('prev state')} ${JSON.stringify(getState())}`);
-        let returnValue = next(action);
-        console.log(`\t${chalk.green.bold('next state')} ${JSON.stringify(getState())}`);
-        return returnValue;
-    };
-};
+const store = createStore(reducer, applyMiddleware(loggerMiddleware, thunkMiddleware, multiMiddleware, effectsMiddleware, fetchMiddleware));
 
-const store = createStore(reducer,
-    applyMiddleware(
-        loggerMiddleware,
-        thunkMiddleware, multiMiddleware, effectsMiddleware, fetchMiddleware
-    )
-);
-
-const render = () => console.log(`\t\t${chalk.inverse('render state')} ${JSON.stringify(store.getState())}`);
+const render = () => console.log(`\t\trender state: ${JSON.stringify(store.getState())}`);
 
 store.subscribe(render);
 store.dispatch(fetchStockQuote({symbol: 'TSCO.L'}));
