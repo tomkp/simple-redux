@@ -2,41 +2,41 @@ const {createStore, applyMiddleware} = require('redux');
 const thunk = require('redux-thunk').default;
 const fetch = require('isomorphic-fetch');
 
-const fetchTodosRequest = () => {
+const fetchRequest = () => {
     return {
-        type: 'FETCH_TODOS_REQUEST'
+        type: 'FETCH_REQUEST'
     }
 };
 
-const fetchTodosSuccess = (body) => {
+const fetchSuccess = (body) => {
     return {
-        type: 'FETCH_TODOS_SUCCESS',
+        type: 'FETCH_SUCCESS',
         body
     }
 };
 
-const fetchTodosFailure = (ex) => {
+const fetchFailure = (ex) => {
     return {
-        type: 'FETCH_TODOS_FAILURE',
+        type: 'FETCH_FAILURE',
         ex
     }
 };
 
-const fetchTodos = (symbol) => {
+const fetchQuote = (symbol) => {
     return dispatch => {
-        dispatch(fetchTodosRequest());
+        dispatch(fetchRequest());
         return fetch(`http://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.quotes+where+symbol+in+("${symbol}")&format=json&env=store:%2F%2Fdatatables.org%2Falltableswithkeys`)
             .then(res => res.json())
-            .then(json => dispatch(fetchTodosSuccess(json.body)))
-            .catch(ex => dispatch(fetchTodosFailure(ex)))
+            .then(json => dispatch(fetchSuccess(json.body)))
+            .catch(ex => dispatch(fetchFailure(ex)))
     }
 };
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FETCH_TODOS_REQUEST':
-        case 'FETCH_TODOS_SUCCESS':
-        case 'FETCH_TODOS_FAILURE': return Object.assign({}, state, {
+        case 'FETCH_REQUEST':
+        case 'FETCH_SUCCESS':
+        case 'FETCH_FAILURE': return Object.assign({}, state, {
             status: action.type
         });
         default: return state;
@@ -47,4 +47,4 @@ const store = createStore(reducer, applyMiddleware(thunk));
 store.subscribe(() => console.log(`render state: ${JSON.stringify(store.getState())}`));
 
 
-store.dispatch(fetchTodos('TSCO.L'));
+store.dispatch(fetchQuote('TSCO.L'));
